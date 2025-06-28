@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom'
 const Navbar = () => {
 
     const isAuthenticated=useAuthStore((state)=>state.isAuthenticated)
-    const navigate=useNavigate()
+    const navigate=useNavigate()   
+    const logout=useAuthStore((state)=>state.logout)
 
   return (
     <div className=' h-20 flex items-center px-4 md:px-8 justify-between'>
@@ -24,6 +25,7 @@ const Navbar = () => {
             </div>}
             {isAuthenticated && <div onClick={()=>{
                 localStorage.removeItem('auth-storage')
+                logout()
                 navigate("/")
             }} className='font-semibold cursor-pointer px-3 py-2 md:px-5 rounded-4xl  w-fit bg-black text-white'>
                 Logout

@@ -13,6 +13,7 @@ import Signin from './pages/Signin'
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from './components/Navbar'
 import Layout from './components/Layout'
+import Loading from './components/Loading'
 
 function App() {
 
@@ -30,7 +31,8 @@ function App() {
           <Route path="textEditor" element={<ProtectedRoute><TextEditor/></ProtectedRoute> }></Route>
       </Routes>
     </BrowserRouter> 
-
+    
+    {/* <Loading></Loading> */}
     {/* <HomePage></HomePage>
     {/* <Navbar></Navbar> */}
     </>

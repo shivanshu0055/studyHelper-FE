@@ -12,6 +12,7 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
 
   const editorText = useEditorStore((state) => state.editorText);
   const editorJSON = useEditorStore((state) => state.editorJSON);
+
   const setEditorText=useEditorStore((state)=>state.setEditorText)
   const setEditorJSON=useEditorStore((state)=>state.setEditorJSON)
 
@@ -29,6 +30,7 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
   const [searchParams]=useSearchParams()
   const noteID=searchParams.get('noteID')
 
+  
   async function handleSave() {
     try {
       if(!noteID){
@@ -52,7 +54,7 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
         const res=await axios.post(
           import.meta.env.VITE_BACKEND_URL+"/user/editNote",{
             noteID:noteID,
-            title:title.current.value,
+            title:titleRef.current.value,
             content:editorText,
             subject:subjectRef.current.value,
             color:color,
@@ -144,7 +146,7 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
             <div className="my-3">
               <div className="text-black/70 text-sm mb-1">Note's Title</div>
               <input
-                value={title}
+                defaultValue={title}
                 ref={titleRef}
                 type="text"
                 placeholder="eg. Lecture 1 OS"
@@ -156,7 +158,7 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
             <div className="my-3">
               <div className="text-black/70 text-sm mb-1">Subject's Name</div>
               <input
-                value={subject}
+                defaultValue={subject}
                 ref={subjectRef}
                 type="text"
                 placeholder="eg. Operating System"
@@ -175,25 +177,25 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
                 ></div>
                 <div
                   onClick={() => setColor("yellow")}
-                  className={`cursor-pointer h-4 w-4 bg-yellow-200 rounded-lg ${
+                  className={`cursor-pointer h-4 w-4 bg-[#fec971] rounded-lg ${
                     color == "yellow" ? `outline-2 outline-black` : null
                   }`}
                 ></div>
                 <div
                   onClick={() => setColor("green")}
-                  className={`cursor-pointer h-4 w-4 bg-green-200 rounded-lg ${
+                  className={`cursor-pointer h-4 w-4 bg-[#e3ef8f] rounded-lg ${
                     color == "green" ? `outline-2 outline-black` : null
                   }`}
                 ></div>
                 <div
-                  onClick={() => setColor("pink")}
-                  className={`cursor-pointer h-4 w-4 bg-pink-200 rounded-lg ${
-                    color == "pink" ? `outline-2 outline-black` : null
+                  onClick={() => setColor("orange")}
+                  className={`cursor-pointer h-4 w-4 bg-[#fe9b72] rounded-lg ${
+                    color == "orange" ? `outline-2 outline-black` : null
                   }`}
                 ></div>
                 <div
                   onClick={() => setColor("purple")}
-                  className={`cursor-pointer h-4 w-4 bg-purple-200 rounded-lg ${
+                  className={`cursor-pointer h-4 w-4 bg-[#b692fc] rounded-lg ${
                     color == "purple" ? `outline-2 outline-black` : null
                   }`}
                 ></div>
