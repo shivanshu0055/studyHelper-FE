@@ -70,7 +70,6 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
         className='cursor-pointer h-3.5 w-3.5 rounded-full bg-red-500 absolute top-5 right-5'></motion.div>}
         </AnimatePresence>
 
-
         <div className='text-xs text-gray-800'>{createdAt}</div>
         <div className='flex justify-between my-2 md:my-4 items-end h-9 '>
         <div className='font-medium text-lg md:text-2xl break-words w-6/10 md:w-7/10 overflow-scroll hide-scrollbar h-8'>
@@ -80,7 +79,10 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
         
         <div onClick={()=>{
             navigate(`/textEditor?noteID=${noteID}`)
-        }}> <RiEdit2Line className={`h-4 w-4 md:h-5 md:w-5 rounded-3xl cursor-pointer `} /> </div>
+        }}> 
+        
+        <RiEdit2Line className={`h-4 w-4 md:h-5 md:w-5 rounded-3xl cursor-pointer `} /> 
+        </div>
 
         <div > <FaStar className={`h-4 w-4 md:h-5 md:w-5 rounded-3xl cursor-pointer `}/> </div>
 

@@ -13,7 +13,7 @@ const Navbar = () => {
         <div className='h-10 w-fit flex'>
             <img src="https://static.vecteezy.com/system/resources/previews/009/665/468/non_2x/notes-illustration-3d-free-png.png" alt="" />
             <div className='flex items-center'>
-            <div className='ml-3 text-xl md:text-2xl font-bold'>Note-Mind</div>
+            <div className='ml-3 text-xl md:text-2xl font-bold'>SuperMind</div>
             </div>
         </div>
         <div className='flex gap-2'>
