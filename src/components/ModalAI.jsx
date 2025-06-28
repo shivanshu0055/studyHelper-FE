@@ -1,8 +1,41 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { RxCross1 } from "react-icons/rx";
 import { motion, AnimatePresence } from 'framer-motion'
+import axios from 'axios';
+import { useAuthStore } from '../store/useAuthStore';
+import {marked} from 'marked'
 
 const ModalAI = ({ isOpen, setIsOpen }) => {
+
+  const [content,setContent]=useState("Your AI Genetrated content will appear here ...")
+  const queryRef=useRef()
+  const token=useAuthStore((state)=>state.token)
+  const responseRef=useRef()
+
+  // useEffect(()=>{
+  //   const htmlContent=marked(content)
+  //   if (responseRef.current) {
+  //   responseRef.current.innerHTML = htmlContent;
+  //   }
+    // responseRef.current.innerHTML=htmlContent
+  //   console.log(htmlContent);
+    
+  // },[content])
+
+  const handleGPTResponse=async () => {
+    const query=queryRef.current.value
+    const res=await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/getPlainResponse",{
+      query:query
+    },{
+      headers:{
+        'authorization':`<Bearer> ${token}`
+      }
+    })
+
+    setContent(marked(res.data.response));
+    
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -37,17 +70,19 @@ const ModalAI = ({ isOpen, setIsOpen }) => {
 
             {/* Input */}
             <div>
-              <textarea type="text" placeholder='eg. create short notes for magnetic field' className='text-black text-xs outline-1 outline-black/30 bg-gray-100/50 w-full my-3 rounded-sm px-2 py-1 max-h-40' />
+              <textarea ref={queryRef} type="text" placeholder='eg. create short notes for magnetic field' className='text-black text-xs outline-1 outline-black/30 bg-gray-100/50 w-full my-3 rounded-sm px-2 py-1 max-h-40' />
             </div>
 
             {/* Generated Text Area */}
-            <div className='text-xs text-black/80 min-h-72 bg-gray-100/50 mb-2 rounded-md py-1 px-2 outline-1 outline-black/30 overflow-scroll max-h-72'>
+            <div
+              dangerouslySetInnerHTML={{ __html: content }}
+            ref={responseRef} className='text-xs text-black/80 min-h-72 bg-gray-100/50 mb-2 rounded-md py-1 px-2 outline-1 outline-black/30 overflow-scroll max-h-72'>
               {/* Placeholder text */}
-              Lorem ipsum dolor sit amet...
+
             </div>
 
             {/* Generate Button */}
-            <div className='cursor-pointer m-auto text-center text-white bg-black py-1 px-2 w-fit rounded-md mt-4 '>
+            <div onClick={handleGPTResponse} className='cursor-pointer m-auto text-center text-white bg-black py-1 px-2 w-fit rounded-md mt-4 '>
               Generate
             </div>
           </motion.div>

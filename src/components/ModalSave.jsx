@@ -171,7 +171,7 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
               <div className="gap-3 flex mt-2">
                 <div
                   onClick={() => setColor("blue")}
-                  className={`cursor-pointer h-4 w-4 bg-blue-200 rounded-lg ${
+                  className={`cursor-pointer h-4 w-4 bg-[#04d9ff] rounded-lg ${
                     color == "blue" ? `outline-2 outline-black` : null
                   }`}
                 ></div>
