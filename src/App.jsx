@@ -31,7 +31,7 @@ function App() {
           <Route path="textEditor" element={<ProtectedRoute><TextEditor/></ProtectedRoute> }></Route>
       </Routes>
     </BrowserRouter> 
-    
+    {/* <Loading></Loading> */}
     {/* <Loading></Loading> */}
     {/* <HomePage></HomePage>
     {/* <Navbar></Navbar> */}

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import {motion} from "motion/react"
@@ -13,6 +13,7 @@ import ToolIcon from '../icons/ToolIcon'
 import GridIcon from '../icons/GridIcon'
 import {Bounce, toast,ToastContainer} from 'react-toastify'
 import { useAuthStore } from '../store/useAuthStore'
+import Loading from '../components/Loading'
 
 
 const Signin = () => {
@@ -21,11 +22,12 @@ const Signin = () => {
     const passwordRef1=useRef()
     const navigate=useNavigate()
     const login=useAuthStore((state)=>state.login)
+    const [loading,setIsLoading]=useState(false)
 
     async function handleSignin(){
 
         try{
-
+        setIsLoading(true)
         const res=await axios.post(import.meta.env.VITE_BACKEND_URL+"/auth/signin",{
             username:usernameRef1.current.value,
             password:passwordRef1.current.value
@@ -34,7 +36,7 @@ const Signin = () => {
         login(res.data.token,res.data.userID)
 
         navigate('/home')
-        
+        setIsLoading(false)
     }
     catch(e){
         // console.log(e.status);
@@ -70,6 +72,7 @@ const Signin = () => {
 
   return (
     <div className='font-poppins h-screen w-full bg-[#d9d9d9] flex justify-center items-center'>
+        {loading && <Loading></Loading>}
         <ToastContainer
         position="top-right"
         autoClose={5000}

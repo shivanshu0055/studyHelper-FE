@@ -7,28 +7,42 @@ import {marked} from 'marked'
 import { ScaleLoader } from 'react-spinners';
 // import {motion} from 'motion/react'
 
-const ModalAI = ({ isOpen, setIsOpen }) => {
+const ModalAskAI = ({ isOpen, setIsOpen }) => {
 
-  const [content,setContent]=useState("Your AI Genetrated content will appear here ...")
+  const [content,setContent]=useState("You can ask questions and I will reply with context to your saved note ...")
   const queryRef=useRef()
   const token=useAuthStore((state)=>state.token)
   const responseRef=useRef()
-
+    
   const handleGPTResponse=async () => {
     setIsLoading(true)
     const query=queryRef.current.value
-    const res=await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/getPlainResponse",{
-      query:query
+   
+    const contextRes=await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/getContextFromSimilarEmbeddings",{
+        query:query
     },{
-      headers:{
-        'authorization':`<Bearer> ${token}`
-      }
+        headers:{
+            'authorization':`<Bearer> ${token}`
+        }
     })
-    setIsLoading(false)
-    setContent(marked(res.data.response));
+    const context=contextRes.data.Context
+    // console.log(context);
     
+    const answerRes=await axios.post(import.meta.env.VITE_BACKEND_URL+'/user/getResponseWithContext',{
+        query:query,
+        context:context
+    },{
+        headers:{
+            'authorization':`<Bearer> ${token}`
+        }
+    })
+
+    // console.log(answerRes.data.response);
+    
+    setIsLoading(false)
+    setContent(marked(answerRes.data.response)); 
   }
-  
+
   const [isLoading,setIsLoading]=useState(false)
 
   return (
@@ -106,4 +120,4 @@ const ModalAI = ({ isOpen, setIsOpen }) => {
   )
 }
 
-export default ModalAI
+export default ModalAskAI

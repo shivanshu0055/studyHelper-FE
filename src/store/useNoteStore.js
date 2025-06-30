@@ -17,6 +17,7 @@ export const useNoteStore=create((set)=>({
                 }
             }
         )
+        
         set({notes:res.data.notes})
     },
 

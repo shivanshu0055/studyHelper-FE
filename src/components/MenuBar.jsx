@@ -24,8 +24,9 @@ import { useEditorStore } from '../store/useEditorStore'
 import { useNoteStore } from '../store/useNoteStore'
 import { useAuthStore } from '../store/useAuthStore'
 import axios from 'axios'
+import Loading from './Loading'
 
-const MenuBar = ({isOpenAI,setIsOpenAI,isOpenSave,setIsOpenSave}) => {
+const MenuBar = ({isOpenAI,setIsOpenAI,isOpenSave,setIsOpenSave,isOpenAskAI,setIsOpenAskAI}) => {
 
   const { editor } = useCurrentEditor()
 
@@ -42,12 +43,15 @@ const MenuBar = ({isOpenAI,setIsOpenAI,isOpenSave,setIsOpenSave}) => {
 
   const notes=useNoteStore((state)=>state.notes)
   const token=useAuthStore((state)=>state.token)
+  const [loading,setLoading]=useState(false)
 
   const [searchParams]=useSearchParams()
   const noteID=searchParams.get('noteID')
+  // console.log(noteID);
   
   useEffect(()=>{
-
+    // console.log("Hello");
+    
     if (editor && editorJSON?.type === 'doc') {
       editor.commands.setContent(editorJSON)
     }
@@ -55,10 +59,147 @@ const MenuBar = ({isOpenAI,setIsOpenAI,isOpenSave,setIsOpenSave}) => {
   },[editorJSON])
 
   useEffect(()=>{
-    
-    if(!noteID) return
-    
+    if(!noteID){
+    setEditorJSON({
+      type: 'doc',
+      content: [
+      { 
+      type: 'heading',
+      attrs: { level: 2 },
+      content: [
+        {
+          type: 'text',
+          text: 'Welcome to your new note!',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'This editor is powered by ',
+        },
+        {
+          type: 'text',
+          marks: [{ type: 'bold' }],
+          text: 'Tiptap',
+        },
+        {
+          type: 'text',
+          text: ' and supports various rich text features like formatting, lists, and code blocks.',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'Here’s what you can try:',
+        },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Use ' },
+                { type: 'text', marks: [{ type: 'bold' }], text: 'Undo' },
+                { type: 'text', text: ' and ' },
+                { type: 'text', marks: [{ type: 'bold' }], text: 'Redo' },
+                { type: 'text', text: ' buttons to navigate changes' },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Create bullet or numbered lists easily' },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Insert headings, quotes, and dividers' },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Write code using code blocks' },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'blockquote',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'This is a blockquote — perfect for highlighting important ideas or quotes!',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'codeBlock',
+      attrs: { language: 'js' },
+      content: [
+        {
+          type: 'text',
+          text: '// Example code block\nconst greet = () => {\n  console.log("Hello, world!");\n};',
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'Now that you’ve seen the features, go ahead and make this note your own! 🚀',
+        },
+      ],
+    },
+  ],
+    })
+    setEditorText("")
+    setTitle("")
+    setSubject("")
+  }},[])
+
+  useEffect(()=>{
+    if(!noteID){
+      return
+    }
+    setLoading(true)
     const fetchNoteInfo=async ()=>{
+      await new Promise((resolve)=>setTimeout(resolve,500))
       try{
         const res=await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/getNote",{
         noteID:noteID
@@ -67,24 +208,24 @@ const MenuBar = ({isOpenAI,setIsOpenAI,isOpenSave,setIsOpenSave}) => {
           "authorization":`<Bearer> ${token}`
         }
       })
-
+      
       setEditorJSON(res.data.note.contentJSON)
       setEditorText(res.data.note.content)
       setTitle(res.data.note.title)
       setSubject(res.data.note.subject)
-
+      setLoading(false)
     }
     catch(error){
       console.log(error);
     }
-
   }
+
   fetchNoteInfo()
   },[ noteID,notes ])
 
   return (
     <div className="control-group mb-4 border-[3px] p-1 rounded-2xl border-editorButton " >
-
+      {loading && <Loading ></Loading>}
       <div className="button-group flex flex-wrap justify-center ">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -224,6 +365,14 @@ const MenuBar = ({isOpenAI,setIsOpenAI,isOpenSave,setIsOpenSave}) => {
             AI
           </div>
         </button>
+        <button className='flex gap-1 justify-center items-center' onClick={()=>{
+          setIsOpenAskAI(!isOpenAskAI)
+        }}>
+          <GiStarSwirl />
+          <div className='font-semibold text-sm'>
+            ASK NOTE
+          </div>
+        </button>
       </div>
     </div>
   )
@@ -244,298 +393,18 @@ const extensions = [
   }),
 ]
 
-const content = {
 
-    "type": "doc",
-
-    "content": [
-
-      {
-
-        "type": "heading",
-
-        "attrs": {
-
-          "level": 2
-
-        },
-
-        "content": [
-
-          {
-
-            "type": "text",
-
-            "text": "Hi there,"
-
-          }
-
-        ]
-
-      },
-
-      {
-
-        "type": "paragraph",
-
-        "content": [
-
-          {
-
-            "type": "text",
-
-            "text": "this is a "
-
-          },
-
-          {
-
-            "type": "text",
-
-            "marks": [
-
-              {
-
-                "type": "italic"
-
-              }
-
-            ],
-
-            "text": "basic"
-
-          },
-
-          {
-
-            "type": "text",
-
-            "text": " example of "
-
-          },
-
-          {
-
-            "type": "text",
-
-            "marks": [
-
-              {
-
-                "type": "bold"
-
-              }
-
-            ],
-
-            "text": "Tiptap"
-
-          },
-
-          {
-
-            "type": "text",
-
-            "text": ". Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:"
-
-          }
-
-        ]
-
-      },
-
-      {
-
-        "type": "bulletList",
-
-        "content": [
-
-          {
-
-            "type": "listItem",
-
-            "attrs": {
-
-              "color": ""
-
-            },
-
-            "content": [
-
-              {
-
-                "type": "paragraph",
-
-                "content": [
-
-                  {
-
-                    "type": "text",
-
-                    "text": "That’s a bullet list with one …"
-
-                  }
-
-                ]
-
-              }
-
-            ]
-
-          },
-
-          {
-
-            "type": "listItem",
-
-            "attrs": {
-
-              "color": ""
-
-            },
-
-            "content": [
-
-              {
-
-                "type": "paragraph",
-
-                "content": [
-
-                  {
-
-                    "type": "text",
-
-                    "text": "… or two list items."
-
-                  }
-
-                ]
-
-              }
-
-            ]
-
-          }
-
-        ]
-
-      },
-
-      {
-
-        "type": "paragraph",
-
-        "content": [
-
-          {
-
-            "type": "text",
-
-            "text": "Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:"
-
-          }
-
-        ]
-
-      },
-
-      {
-
-        "type": "codeBlock",
-
-        "attrs": {
-
-          "language": "css"
-
-        },
-
-        "content": [
-
-          {
-
-            "type": "text",
-
-            "text": "body {\n  display: none;\n}"
-
-          }
-
-        ]
-
-      },
-
-      {
-
-        "type": "paragraph",
-
-        "content": [
-
-          {
-
-            "type": "text",
-
-            "text": "I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too."
-
-          }
-
-        ]
-
-      },
-
-      {
-
-        "type": "blockquote",
-
-        "content": [
-
-          {
-
-            "type": "paragraph",
-
-            "content": [
-
-              {
-
-                "type": "text",
-
-                "text": "Wow, that’s amazing. Good work, boy! 👏 "
-
-              },
-
-              {
-
-                "type": "hardBreak"
-
-              },
-
-              {
-
-                "type": "text",
-
-                "text": "— Mom"
-
-              }
-
-            ]
-
-          }
-
-        ]
-
-      }
-
-    ]
-
-  }
-
-export default ({isOpenSave,setIsOpenSave,isOpenAI,setIsOpenAI}) => {
+export default ({isOpenSave,setIsOpenSave,isOpenAI,setIsOpenAI,isOpenAskAI,setIsOpenAskAI}) => {
   const editorJSON=useEditorStore((state)=>state.editorJSON)
-  // console.log(editorJSON);
-  // console.log("hloo");
-  
+
   return (
     <div className='p-3 editor-content sm:w-[97%] md:w-[91%] lg:w-[75%] xl:w-[65%] rounded-lg mt-10 mb-6'>
-    <EditorProvider slotBefore={<MenuBar isOpenSave={isOpenSave} setIsOpenSave={setIsOpenSave} isOpenAI={isOpenAI} setIsOpenAI={setIsOpenAI}/>} extensions={extensions} content={editorJSON}></EditorProvider>
+    <EditorProvider
+    slotBefore={<MenuBar 
+    isOpenAskAI={isOpenAskAI} setIsOpenAskAI={setIsOpenAskAI} 
+    isOpenSave={isOpenSave} setIsOpenSave={setIsOpenSave} 
+    isOpenAI={isOpenAI} setIsOpenAI={setIsOpenAI}/>} 
+    extensions={extensions} content={editorJSON}></EditorProvider>
     </div>
   )
 }

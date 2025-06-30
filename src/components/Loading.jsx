@@ -3,9 +3,9 @@ import {GridLoader} from 'react-spinners'
 
 const Loading = () => {
   return (
-    <div className='h-screen fixed flex w-full bg-black/10 backdrop-blur-lg justify-center items-center'>
+    <div className='h-screen top-0 left-0 z-10 fixed flex w-full bg-black/20 backdrop-blur-lg justify-center items-center'>
         <div>
-            <GridLoader size={15}></GridLoader>
+            <GridLoader size={15} color='white'></GridLoader>
         </div>
     </div>
   )

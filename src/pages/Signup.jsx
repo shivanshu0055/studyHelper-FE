@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import Note1 from '../icons/Note1'
@@ -11,22 +11,24 @@ import ToolIcon from '../icons/ToolIcon'
 import GridIcon from '../icons/GridIcon'
 import { motion } from 'motion/react'
 import {Bounce, toast,ToastContainer} from 'react-toastify'
+import Loading from '../components/Loading'
 const Signup = () => {
 
     const usernameRef1=useRef()
     const passwordRef1=useRef()
     const navigate=useNavigate()
+    const [loading,setLoading]=useState(false)
 
     // console.log(import.meta.env.VITE_BACKEND_URL);
     
     async function handleSignup(){
         try {
-
+            setLoading(true)
             const res=await axios.post(import.meta.env.VITE_BACKEND_URL+"/auth/signup",{
             username:usernameRef1.current.value,
             password:passwordRef1.current.value
             })
-
+            setLoading(false)
             navigate("/signin")
 
         } catch (error) {
@@ -55,6 +57,7 @@ const Signup = () => {
 
    return (
     <div className='font-poppins h-screen w-full bg-[#d9d9d9] flex justify-center items-center'>
+        {loading && <Loading></Loading>}
         <ToastContainer
         position="top-right"
         autoClose={5000}

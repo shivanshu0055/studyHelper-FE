@@ -4,12 +4,19 @@ import { FaPencilAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { useNoteStore } from '../store/useNoteStore';
 import { FaFilePdf } from "react-icons/fa";
-import Loading from '../components/Loading';
 import LeftArrow from '../icons/LeftArrow';
 import RightArrow from '../icons/RightArrow';
-import ModalPDF from '../components/ModalPDF';
 import axios from 'axios';
 import { useAuthStore } from '../store/useAuthStore';
+import { useEditor, useEditorState } from '@tiptap/react';
+import { useEditorStore } from '../store/useEditorStore';
+import { marked } from 'marked';
+import ModalSave from '../components/ModalSave';
+import { generateJSON } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
+import Loading from '../components/Loading';
+
+const extensions = [StarterKit]
 
 const HomePage = () => {
 
@@ -18,7 +25,12 @@ const HomePage = () => {
 
     const notes=useNoteStore((state)=>state.notes)
     const fetchNote=useNoteStore((state)=>state.fetchNote)
-    
+
+    const setEditorText=useEditorStore((state)=>state.setEditorText)
+    const setEditorJSON=useEditorStore((state)=>state.setEditorJSON)
+
+    const [modalOpen,setModalOpen]=useState(false)
+
     useEffect(()=>{
         fetchNote()
     },[])
@@ -27,7 +39,8 @@ const HomePage = () => {
         inputRef.current.click(); 
   };
 
-    const [pdfText,setPDFText] = useState('')
+    const [loading,setLoading]=useState(false)
+
     const token=useAuthStore((state)=>state.token)
 
     const handleFileChange =async (e) => {
@@ -35,6 +48,7 @@ const HomePage = () => {
     if (file && file.type === 'application/pdf') {
         const formData = new FormData();
         formData.append("pdf", file);
+        setLoading(true)
 
         const res=await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/readPDF",
             formData,
@@ -55,23 +69,35 @@ const HomePage = () => {
         })
 
         // console.log(summaryRes.data.response)
-        setPDFText(summaryRes.data.response)
+
+        // setPDFText(summaryRes.data.response)
+        // console.log();
         
+        setEditorText(summaryRes.data.response)
+        const htmlString=marked(summaryRes.data.response)
+        console.log(htmlString);
+        
+        const jsonContent = generateJSON(htmlString, extensions)
+        console.log(jsonContent);
+        
+        setEditorJSON(jsonContent)
+        // console.log(jsonContent);
+        setLoading(false)
+        setModalOpen(true)
+
     //   console.log('PDF selected:', file.name);
     } else {
       alert('Please select a valid PDF file.');
     }
     };
 
-
-
   return (
     <div className='w-full border-t-2 border-t-gray-300'>
-        <ModalPDF ></ModalPDF>
         <div className='flex my-8 mx-2 md:mx-6 md:gap-5 justify-center gap-3'>
-
+            {loading && <Loading></Loading>}
+            {modalOpen && <ModalSave isOpen={modalOpen} setIsOpen={setModalOpen}></ModalSave>}
             <div className='text-gray-600 font-scribble md:text-base text-xs text-center my-auto '>
-                Click to open <br /> rich
+                Click to open AI <br /> enriched
                 text editor</div>
             <div className='md:h-20 md:w-20 text-gray-400 h-10 w-10 my-auto'>
             <RightArrow ></RightArrow>
@@ -108,8 +134,8 @@ const HomePage = () => {
             <div
             
              className='text-gray-600 font-scribble md:text-base text-xs  text-center my-auto'>
-                Click to upload <br />
-                PDF and more
+                Click to upload
+                PDF <br /> and generate it's note
                 </div>
         </div>
         <div className='mx-4 md:mx-6 text-3xl md:text-4xl font-semibold font-poppins'>
