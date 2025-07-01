@@ -15,8 +15,25 @@ import ModalSave from '../components/ModalSave';
 import { generateJSON } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Loading from '../components/Loading';
-
+import dayjs from 'dayjs'
+import { FaChevronCircleLeft } from "react-icons/fa"
+import { FaChevronCircleRight } from "react-icons/fa"
 const extensions = [StarterKit]
+
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
 
 const HomePage = () => {
 
@@ -30,14 +47,28 @@ const HomePage = () => {
     const setEditorJSON=useEditorStore((state)=>state.setEditorJSON)
 
     const [modalOpen,setModalOpen]=useState(false)
+    const [currentMonth,setCurrentMonth]=useState(dayjs())
 
     useEffect(()=>{
-        fetchNote()
-    },[])
+        fetchNote(currentMonth)
+    },[currentMonth,modalOpen])
+
+
+    const handleNextMonth = () => {
+        if(dayjs().month()>currentMonth.month() && dayjs().year()<=currentMonth.year()){
+        setCurrentMonth(prev => prev.add(1, 'month'))
+        return
+        }
+        alert("You cant go to future")
+    }
+
+    const handlePrevMonth = () => {
+    setCurrentMonth(prev => prev.subtract(1, 'month'))
+    }
 
     const handleDivClick = () => {
         inputRef.current.click(); 
-  };
+    };
 
     const [loading,setLoading]=useState(false)
 
@@ -61,7 +92,7 @@ const HomePage = () => {
         // console.log(res.data.content);
         
         const summaryRes=await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/getPlainResponse",{
-            query:`Generate summary of this provided content : ${res.data.content}`
+            query:`Generate a very extensive summary of this provided content : ${res.data.content}`
         },{
             headers:{
                 'authorization':`<Bearer> ${token}`
@@ -86,6 +117,7 @@ const HomePage = () => {
         setModalOpen(true)
 
     //   console.log('PDF selected:', file.name);
+
     } else {
       alert('Please select a valid PDF file.');
     }
@@ -138,11 +170,24 @@ const HomePage = () => {
                 PDF <br /> and generate it's note
                 </div>
         </div>
-        <div className='mx-4 md:mx-6 text-3xl md:text-4xl font-semibold font-poppins'>
+        <div className='flex justify-between mx-4 md:mx-6 items-center'>
+        <div className='text-3xl md:text-4xl font-semibold font-poppins'>
             My Notes
+        </div>
+        <div className='flex gap-2 items-center sm:mr-4 xl:mr-5'>
+        <div className='cursor-pointer' onClick={handlePrevMonth}><FaChevronCircleLeft className='h-6 w-6'/></div>
+        <div className='text-lg'>{months[currentMonth.month()]+", "+currentMonth.year()}</div>
+        <div className='cursor-pointer' onClick={handleNextMonth}><FaChevronCircleRight className='h-6 w-6'/></div>
+        </div>
         </div>
         <div className='flex flex-wrap mx-4 md:mx-6 my-5 gap-4 xl:gap-6'>
         {
+            notes.length==0
+            ?
+            <div className='flex justify-center w-full h-70'>
+            <div className='text-3xl my-auto font-semibold text-gray-700/50 md:text-6xl'>No note availabe for {months[currentMonth.month()]+", "+currentMonth.year()}</div>
+            </div>
+            :
             notes.map((note,index)=>(
                 <NoteCard
                     key={index}

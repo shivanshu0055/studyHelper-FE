@@ -8,6 +8,7 @@ import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ScaleLoader } from 'react-spinners';
 import { useNoteStore } from '../store/useNoteStore';
+import dayjs from 'dayjs';
 
 const ModalSave = ({ isOpen, setIsOpen }) => {
   const [color, setColor] = useState("blue");
@@ -40,9 +41,9 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
     try {
       setIsLoading(true)
       if(!noteID){
-        console.log("Hello");
+        // console.log("Hello");
         
-        console.log(editorText);
+        // console.log(editorText);
         
           const res = await axios.post(
           import.meta.env.VITE_BACKEND_URL + "/user/createNote",
@@ -76,11 +77,12 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
           }
         )
       }
-
-      await fetchNote()
-      navigate("/home")
+      await fetchNote(dayjs())
+      // console.log("Hello");
       setIsLoading(false)
       setIsOpen(false)
+      
+      navigate("/home")
 
     } catch (error) {
       setIsOpen(false)

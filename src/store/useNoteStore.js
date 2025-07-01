@@ -5,18 +5,22 @@ export const useNoteStore=create((set)=>({
 
     notes:[],
 
-    fetchNote:async ()=>{
+    fetchNote:async (monthObj)=>{
         
         const sessionInfo=JSON.parse(localStorage.getItem('auth-storage'))
         // console.log(sessionInfo.state.token);
+        const formatted=monthObj.format('YYYY-MM')
+        // console.log(formatted);
         
-        const res=await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/getNotes`,
+        const res=await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/getNotesByMonth?month=${formatted}`,
             {
                 headers:{
                     "authorization":"<Bearer> "+sessionInfo.state.token
                 }
             }
         )
+
+        // console.log(res.data.notes);
         
         set({notes:res.data.notes})
     },
