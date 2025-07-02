@@ -7,6 +7,7 @@ import { FaStar } from "react-icons/fa6";
 import axios from 'axios';
 import { useAuthStore } from '../store/useAuthStore';
 import { useNoteStore } from '../store/useNoteStore';
+import Loading from './Loading';
 
 const colorSchemes = {
   blue: '#04d9ff',
@@ -24,6 +25,11 @@ const colorSchemes = {
 //   yellow: '#fec971'
 // }
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+};
+
 const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
 
     // console.log(colorSchemes[color]);
@@ -31,8 +37,10 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
     const navigate=useNavigate()
     const token=useAuthStore((state)=>state.token)
     const deleteNote=useNoteStore((state)=>state.deleteNote)
+    const [loading,setLoading]=useState(false)
 
     const handleDelete=async ()=>{
+        setLoading(true)
         await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/deleteNote",{
             noteID:noteID
         },
@@ -42,11 +50,13 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
             }
         })
         deleteNote(noteID)
+        setLoading(false)
     }
 
   return (
     <motion.div
-
+    // variants={cardVariants}
+    // key={noteID}
     onMouseEnter={()=>{
         setShowDelete(true)
     }}  
@@ -57,7 +67,7 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
 
     className={` relative font-poppins md:h-[330px] w-[48%] lg:w-[32%] xl:w-[23.5%] h-[310px] rounded-2xl pt-6 pb-5 px-4 bg-[${colorSchemes[color]}] `}
     >
-
+        { loading && <Loading/>}
         <AnimatePresence>
         {showDelete && <motion.div 
         onClick={()=>{

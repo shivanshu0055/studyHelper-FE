@@ -50,9 +50,13 @@ const HomePage = () => {
     const [currentMonth,setCurrentMonth]=useState(dayjs())
 
     useEffect(()=>{
-        fetchNote(currentMonth)
+        async function asyncFetch(){
+        setLoading(true)
+        await fetchNote(currentMonth)
+        setLoading(false)
+        }
+        asyncFetch()
     },[currentMonth,modalOpen])
-
 
     const handleNextMonth = () => {
         if(dayjs().month()>currentMonth.month() && dayjs().year()<=currentMonth.year()){
