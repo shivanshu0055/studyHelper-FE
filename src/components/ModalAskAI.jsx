@@ -9,7 +9,7 @@ import { ScaleLoader } from 'react-spinners';
 
 const ModalAskAI = ({ isOpen, setIsOpen }) => {
 
-  const [content,setContent]=useState("You can ask questions and I will reply with context to your saved note ...")
+  const [content,setContent]=useState("eg. The answer to your question will appear here ...")
   const queryRef=useRef()
   const token=useAuthStore((state)=>state.token)
   const responseRef=useRef()
@@ -77,12 +77,12 @@ const ModalAskAI = ({ isOpen, setIsOpen }) => {
 
             {/* Title */}
             <div className='text-black text-center text-lg '>
-              AI to generate notes ✦
+              Ask questions regarding your note ✦
             </div>
 
             {/* Input */}
             <div>
-              <textarea ref={queryRef} type="text" placeholder='eg. create short notes for magnetic field' className='text-black text-xs outline-1 outline-black/30 bg-gray-100/50 w-full my-3 rounded-sm px-2 py-1 max-h-40' />
+              <textarea ref={queryRef} type="text" placeholder='Type your question ...' className='text-black text-xs outline-1 outline-black/30 bg-gray-100/50 w-full my-3 rounded-sm px-2 py-1 max-h-40' />
             </div>
 
             {/* Generated Text Area */}
@@ -106,7 +106,7 @@ const ModalAskAI = ({ isOpen, setIsOpen }) => {
                 onClick={handleGPTResponse}
                 className="cursor-pointer text-center text-white bg-black px-2 py-1 md:py-2 md:px-4 w-fit rounded-md mt-4 h-fit"
               >
-                Generate
+                Ask ...
               </div>
             {isLoading &&  <div className='px-2 py-1 md:py-2 md:px-4 w-fit rounded-md mt-4'>
               <ScaleLoader height={24} width={3} margin={1} />
