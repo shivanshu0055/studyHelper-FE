@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     <div className=' h-20 flex items-center px-4 md:px-8 justify-between'>
-        <div className=' w-32 rounded-xl border border-black/40 '>
+        <div className=' w-32 lg:w-36 rounded-xl border border-black/40 '>
         <img className='rounded-xl h-[100%] w-[100%]' src="image.png" alt="" />
         </div>
         <div className='flex gap-2'>
