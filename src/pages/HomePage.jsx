@@ -127,6 +127,8 @@ const HomePage = () => {
     }
     };
 
+    const [showFavs,setShowFavs]=useState(false)
+
   return (
     <div className='w-full border-t-2 pt-20'>
         <div className='flex my-8 mx-2 md:mx-6 md:gap-5 justify-center gap-3'>
@@ -185,8 +187,9 @@ const HomePage = () => {
         </div>
         </div>
         <div className='flex flex-wrap mx-4 md:mx-6 my-5 gap-4 xl:gap-6'>
-        {
-            notes.length==0
+        { 
+
+            notes.length==0 && !showFavs
             ?
             <div className='flex justify-center w-full h-70'>
             <div className='text-3xl my-auto font-semibold text-gray-700/50 md:text-6xl'>No note availabe for {months[currentMonth.month()]+", "+currentMonth.year()}</div>
@@ -202,9 +205,11 @@ const HomePage = () => {
                     updatedAt={note.updatedAt.slice(0,10)}
                     color={note.color}
                     subject={note.subject}
+                    fav={note.fav}
                 ></NoteCard>
             ))
         }
+
         </div>
 
         

@@ -8,6 +8,9 @@ import axios from 'axios';
 import { useAuthStore } from '../store/useAuthStore';
 import { useNoteStore } from '../store/useNoteStore';
 import Loading from './Loading';
+import dayjs from 'dayjs';
+
+// import { editNote } from '../../../BE/dist/controllers/user.controller';
 
 const colorSchemes = {
   blue: '#04d9ff',
@@ -30,17 +33,22 @@ const cardVariants = {
   show: { opacity: 1, y: 0 },
 };
 
-const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
+const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color,fav}) => {
 
     // console.log(colorSchemes[color]);
+    // console.log(fav);
+    
     const [showDelete,setShowDelete]=useState(false)
     const navigate=useNavigate()
     const token=useAuthStore((state)=>state.token)
     const deleteNote=useNoteStore((state)=>state.deleteNote)
     const [loading,setLoading]=useState(false)
+    const editNote=useNoteStore((state)=>state.editNote)
+    const fetchNote=useNoteStore((state)=>state.fetchNote)
 
     const handleDelete=async ()=>{
         setLoading(true)
+
         await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/deleteNote",{
             noteID:noteID
         },
@@ -49,7 +57,26 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
                 'authorization':`<Bearer> ${token}`
             }
         })
+        
         deleteNote(noteID)
+        setLoading(false)
+    }
+
+    const handleFav=async ()=>{
+        setLoading(true)
+
+        const res=await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/editNote",{
+            fav:!fav,
+            noteID:noteID
+        },
+        {
+            headers:{
+                'authorization':`<Bearer> ${token}`
+            }
+        })
+        
+        editNote(res.data.note)
+
         setLoading(false)
     }
 
@@ -94,7 +121,9 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
         <RiEdit2Line className={`h-4 w-4 md:h-5 md:w-5 rounded-3xl cursor-pointer `} /> 
         </div>
 
-        <div > <FaStar className={`h-4 w-4 md:h-5 md:w-5 rounded-3xl cursor-pointer `}/> </div>
+        <div 
+        className={`${fav?"text-yellow-300":null}`}
+        onClick={handleFav}> <FaStar className={`h-4 w-4 md:h-5 md:w-5 rounded-3xl cursor-pointer  `}/> </div>
 
         </div>
         </div>
@@ -105,6 +134,7 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color}) => {
         <div className='font-light mt-6 text-xs text-gray-800 flex flex-col gap-1'>
         <div> Subject : {subject}</div>
         <div> Updated at : {updatedAt}</div>
+        {fav && <div>FAV</div>}
         </div>
         
     </motion.div>

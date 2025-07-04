@@ -42,6 +42,8 @@ export const useNoteStore=create((set)=>({
                 return note
             })
         }))
+        
+        
     }
     
 }))

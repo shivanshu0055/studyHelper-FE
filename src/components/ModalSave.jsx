@@ -24,7 +24,9 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
 
   const title=useEditorStore((state)=>state.title)
   const subject=useEditorStore((state)=>state.subject)
-  const fetchNote=useNoteStore((state)=>state.fetchNote)
+  
+  const addNote=useNoteStore((state)=>state.addNote)
+  const editNote=useNoteStore((state)=>state.editNote)
 
   const token = useAuthStore((state) => state.token);
 
@@ -53,6 +55,7 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
             subject: subjectRef.current.value,
             color: color,
             contentJSON: editorJSON,
+            fav:false
           },
           {
             headers: {
@@ -60,6 +63,7 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
             },
           }
         );
+        addNote(res.data.note)
       }
       else{
         const res=await axios.post(
@@ -76,9 +80,9 @@ const ModalSave = ({ isOpen, setIsOpen }) => {
             },
           }
         )
+        editNote(res.data.note)
       }
-      await fetchNote(dayjs())
-      // console.log("Hello");
+
       setIsLoading(false)
       setIsOpen(false)
       
