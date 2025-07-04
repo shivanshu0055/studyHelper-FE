@@ -33,7 +33,7 @@ const Signup = () => {
 
         } catch (error) {
             // console.log(error.status);
-            
+            setIsLoading(false)
             if(error.status==400){
                 toast.warn('Username and password should be min 3 and 5 characters long respectively', {
                 position: "top-right",

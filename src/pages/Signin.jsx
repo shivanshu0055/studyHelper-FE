@@ -39,6 +39,7 @@ const Signin = () => {
         setIsLoading(false)
     }
     catch(e){
+        setIsLoading(false)
         // console.log(e.status);
         // console.log(e.status)
         if(e.status==400){
