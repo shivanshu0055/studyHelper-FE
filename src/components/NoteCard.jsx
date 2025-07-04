@@ -57,7 +57,7 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color,fav}) 
                 'authorization':`<Bearer> ${token}`
             }
         })
-        
+
         deleteNote(noteID)
         setLoading(false)
     }
@@ -134,7 +134,7 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color,fav}) 
         <div className='font-light mt-6 text-xs text-gray-800 flex flex-col gap-1'>
         <div> Subject : {subject}</div>
         <div> Updated at : {updatedAt}</div>
-        {fav && <div>FAV</div>}
+
         </div>
         
     </motion.div>

@@ -18,6 +18,9 @@ import Loading from '../components/Loading';
 import dayjs from 'dayjs'
 import { FaChevronCircleLeft } from "react-icons/fa"
 import { FaChevronCircleRight } from "react-icons/fa"
+import { FaStar } from "react-icons/fa";
+
+
 const extensions = [StarterKit]
 
 const months = [
@@ -41,6 +44,7 @@ const HomePage = () => {
     const inputRef=useRef()
 
     const notes=useNoteStore((state)=>state.notes)
+    // const notes=[]
     const fetchNote=useNoteStore((state)=>state.fetchNote)
 
     const setEditorText=useEditorStore((state)=>state.setEditorText)
@@ -57,7 +61,7 @@ const HomePage = () => {
         }
         asyncFetch()
     },[currentMonth,modalOpen])
-
+ 
     const handleNextMonth = () => {
         if(dayjs().month()>currentMonth.month() && dayjs().year()<=currentMonth.year()){
         setCurrentMonth(prev => prev.add(1, 'month'))
@@ -177,9 +181,15 @@ const HomePage = () => {
                 </div>
         </div>
         <div className='flex justify-between mx-4 md:mx-6 items-center'>
-        <div className='text-3xl md:text-4xl font-semibold font-poppins'>
-            My Notes
-        </div>
+            <div className='flex gap-3 items-center'>
+                <div className='text-3xl md:text-4xl font-semibold font-poppins'>
+                    My Notes
+                </div>
+                <div onClick={()=>setShowFavs(!showFavs)} className={`cursor-pointer p-1.5 bg-black rounded-full ${!showFavs?"text-white":"text-yellow-300"}`}>
+                    <FaStar />
+
+                </div>
+            </div>
         <div className='flex gap-2 items-center sm:mr-4 xl:mr-5'>
         <div className='cursor-pointer' onClick={handlePrevMonth}><FaChevronCircleLeft className='h-6 w-6'/></div>
         <div className='text-lg'>{months[currentMonth.month()]+", "+currentMonth.year()}</div>
@@ -187,28 +197,45 @@ const HomePage = () => {
         </div>
         </div>
         <div className='flex flex-wrap mx-4 md:mx-6 my-5 gap-4 xl:gap-6'>
-        { 
-
-            notes.length==0 && !showFavs
-            ?
-            <div className='flex justify-center w-full h-70'>
-            <div className='text-3xl my-auto font-semibold text-gray-700/50 md:text-6xl'>No note availabe for {months[currentMonth.month()]+", "+currentMonth.year()}</div>
-            </div>
-            :
-            notes.map((note,index)=>(
-                <NoteCard
-                    key={index}
-                    noteID={note._id}
-                    title={note.title}
-                    content={note.content}
-                    createdAt={note.createdAt.slice(0,10)}
-                    updatedAt={note.updatedAt.slice(0,10)}
-                    color={note.color}
-                    subject={note.subject}
-                    fav={note.fav}
-                ></NoteCard>
-            ))
-        }
+        {
+  notes.length === 0 && !showFavs ? (
+    <div className='flex justify-center w-full h-70'>
+      <div className='text-3xl my-auto font-semibold text-gray-700/50 md:text-6xl'>
+        No note available for {months[currentMonth.month()] + ", " + currentMonth.year()}
+      </div>
+    </div>
+  ) : showFavs ? (
+    notes
+      .filter(note => note.fav) 
+      .map((note, index) => (
+        <NoteCard
+          key={index}
+          noteID={note._id}
+          title={note.title}
+          content={note.content}
+          createdAt={note.createdAt.slice(0, 10)}
+          updatedAt={note.updatedAt.slice(0, 10)}
+          color={note.color}
+          subject={note.subject}
+          fav={note.fav}
+        />
+      ))
+  ) : (
+    notes.map((note, index) => (
+      <NoteCard
+        key={index}
+        noteID={note._id}
+        title={note.title}
+        content={note.content}
+        createdAt={note.createdAt.slice(0, 10)}
+        updatedAt={note.updatedAt.slice(0, 10)}
+        color={note.color}
+        subject={note.subject}
+        fav={note.fav}
+      />
+    ))
+  )
+}
 
         </div>
 

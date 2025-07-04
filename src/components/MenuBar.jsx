@@ -199,7 +199,7 @@ const MenuBar = ({isOpenAI,setIsOpenAI,isOpenSave,setIsOpenSave,isOpenAskAI,setI
     }
     setLoading(true)
     const fetchNoteInfo=async ()=>{
-      await new Promise((resolve)=>setTimeout(resolve,500))
+      // await new Promise((resolve)=>setTimeout(resolve,500))
       try{
         const res=await axios.post(import.meta.env.VITE_BACKEND_URL+"/user/getNote",{
         noteID:noteID
