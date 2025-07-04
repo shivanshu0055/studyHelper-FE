@@ -25,7 +25,7 @@ const Navbar = () => {
             {isAuthenticated && <div onClick={()=>{
                 localStorage.removeItem('auth-storage')
                 logout()
-                navigate("/main")
+                navigate("/")
             }} className='inset-shadow-sm inset-shadow-white ring-2 ring-white font-semibold cursor-pointer px-3 py-2 md:px-5 rounded-4xl  w-fit bg-black text-white'>
                 Logout
             </div>}
