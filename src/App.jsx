@@ -20,10 +20,10 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainLanding/>}></Route>
+        <Route path="/main" element={<MainLanding/>}></Route>
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/signin" element={<Signin/>}></Route>
-        
+
         <Route path='/' element={<Layout/>}>
           <Route path="home" element={<ProtectedRoute><HomePage/></ProtectedRoute> }></Route>
         </Route>
