@@ -128,7 +128,7 @@ const HomePage = () => {
     };
 
   return (
-    <div className='w-full border-t-2 border-t-gray-300'>
+    <div className='w-full border-t-2 pt-20'>
         <div className='flex my-8 mx-2 md:mx-6 md:gap-5 justify-center gap-3'>
             {loading && <Loading></Loading>}
             {modalOpen && <ModalSave isOpen={modalOpen} setIsOpen={setModalOpen}></ModalSave>}

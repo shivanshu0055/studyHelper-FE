@@ -71,15 +71,16 @@ const Signup = () => {
         theme="light"
         transition={Bounce}
         />
-        <motion.div animate={{x:[0,6,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='absolute h-18 w-18 top-14 left-12 lg:left-34 rotate-12 bg-[#f2cb77] rounded-2xl shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <Note1></Note1> </motion.div>
-        <motion.div animate={{y:[0,8,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='absolute h-15 w-15 top-18 right-8 lg:right-34 -rotate-30 bg-[#ec75ec] p-2 rounded-2xl shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21' > <Pulley></Pulley> </motion.div>
-        <motion.div animate={{y:[0,10,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='absolute h-15 w-15 bottom-18 left-16 lg:left-34 bg-[#817ceb] rounded-2xl p-2 shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <Earth></Earth> </motion.div>
-        <motion.div animate={{x:[0,10,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='absolute h-15 w-15 bottom-18 right-12 lg:right-34 bg-[#ec75ec] p-2 rounded-2xl shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <GridIcon></GridIcon> </motion.div>
-        <motion.div animate={{x:[0,13,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='absolute h-15 w-15 top-9 bg-[#817ceb] rounded-2xl shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <Atom></Atom> </motion.div>
-        <motion.div animate={{y:[0,14,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='absolute h-18 w-18 bottom-9  bg-[#f2cb77] rounded-2xl p-2 shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <Books></Books> </motion.div>
-        <motion.div animate={{y:[0,14,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='absolute h-15 w-15 bottom-96 right-20 lg:right-44 xl:right-65 bg-[#817ceb] rounded-2xl p-2 hidden md:block shadow-2xl md:h-20 md:w-20 rotate-15 xl:h-21 xl:w-21'> <ToolIcon></ToolIcon> </motion.div>
-        <motion.div animate={{y:[0,14,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='absolute h-15 w-15 bottom-99 left-20 lg:left-44 xl:left-65 bg-[#ec75ec] rounded-2xl p-2 hidden md:block shadow-2xl md:h-20 md:w-20 -rotate-10 xl:h-21 xl:w-21'> <DNA></DNA> </motion.div>
-        <div className='h-fit lg:h- w-80 rounded-2xl bg-[#f0f0f0] px-3 shadow-2xl'> 
+        <motion.div animate={{x:[0,6,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='inset-shadow-sm inset-shadow-white ring ring-white absolute h-18 w-18 top-[15%] left-[3%] sm:left-[10%]  rotate-12 bg-[#f2cb77] rounded-2xl shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <Note1></Note1> </motion.div>
+        <motion.div animate={{y:[0,8,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='inset-shadow-sm inset-shadow-white ring ring-white absolute h-15 w-15 top-[15%] right-[4%] sm:right-[10%] -rotate-30 bg-[#ec75ec] p-2 rounded-2xl shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21' > <Pulley></Pulley> </motion.div>
+        <motion.div animate={{y:[0,10,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='inset-shadow-sm inset-shadow-white ring ring-white absolute h-15 w-15 bottom-[15%] left-[4%] sm:left-[10%] bg-[#817ceb] rounded-2xl p-2 shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <Earth></Earth> </motion.div>
+        <motion.div animate={{x:[0,10,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='inset-shadow-sm inset-shadow-white ring ring-white absolute h-15 w-15 bottom-[15%] right-[4%] sm:right-[10%] bg-[#ec75ec] p-2 rounded-2xl shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <GridIcon></GridIcon> </motion.div>
+        <motion.div animate={{x:[0,13,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='inset-shadow-sm inset-shadow-white ring ring-white absolute h-15 w-15 top-[7%] left-[50%] -translate-x-1/2 bg-[#817ceb] rounded-2xl shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <Atom></Atom> </motion.div>
+        <motion.div animate={{y:[0,14,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='inset-shadow-sm inset-shadow-white ring ring-white absolute h-18 w-18 bottom-[7%] left-[50%] -translate-x-1/2 bg-[#f2cb77] rounded-2xl p-2 shadow-2xl md:h-20 md:w-20 xl:h-21 xl:w-21'> <Books></Books> </motion.div>
+        <motion.div animate={{y:[0,14,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='inset-shadow-sm inset-shadow-white ring ring-white absolute h-15 w-15 bottom-[50%] right-[15%] bg-[#817ceb] rounded-2xl p-2 hidden md:block shadow-2xl md:h-20 md:w-20 rotate-15 xl:h-21 xl:w-21'> <ToolIcon></ToolIcon> </motion.div>
+        <motion.div animate={{y:[0,14,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}} className='inset-shadow-sm inset-shadow-white ring ring-white absolute h-15 w-15 bottom-[50%] left-[15%] bg-[#ec75ec] rounded-2xl p-2 hidden md:block shadow-2xl md:h-20 md:w-20 -rotate-10 xl:h-21 xl:w-21'> <DNA></DNA> </motion.div>
+        <div style={{ boxShadow: '2px 3px 4px 1px gray' }} 
+        className='h-fit w-80 rounded-2xl bg-[#f0f0f0] px-3 shadow-2xl'> 
             <div className='h-11 flex justify-center my-5'>
                 <img className='bg-transparent' src="https://static.vecteezy.com/system/resources/previews/009/665/468/non_2x/notes-illustration-3d-free-png.png" alt="" />
             </div>
@@ -91,7 +92,7 @@ const Signup = () => {
                     Username
                 </div>
                 <div>
-                    <input ref={usernameRef1} placeholder='eg. Shivanshu' className='w-full mt-1 bg-gray-300 rounded-md text-xs p-1 focus:outline-1  focus:outline-gray-700 outline-1 outline-gray-400' type="text" />
+                    <input ref={usernameRef1} placeholder='eg. Shivanshu' className= 'text-gray-600 w-full mt-1 bg-gray-300 rounded-md text-xs p-1 focus:outline-1  focus:outline-gray-700 outline-1 outline-gray-400' type="text" />
                 </div>
             </div>
             <div className='my-6'>
@@ -99,7 +100,7 @@ const Signup = () => {
                     Password
                 </div>
                 <div>
-                    <input ref={passwordRef1} placeholder='eg. password123' className='w-full mt-1 bg-gray-300 rounded-md text-xs p-1 focus:outline-1 focus:outline-gray-700 outline-1 outline-gray-400' type="text" />
+                    <input ref={passwordRef1} placeholder='eg. password123' className='text-gray-600 w-full mt-1 bg-gray-300 rounded-md text-xs p-1 focus:outline-1 focus:outline-gray-700 outline-1 outline-gray-400' type="text" />
                 </div>
             </div>
             <div >
