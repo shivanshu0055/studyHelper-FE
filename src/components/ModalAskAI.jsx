@@ -14,6 +14,8 @@ const ModalAskAI = ({ isOpen, setIsOpen }) => {
   const token=useAuthStore((state)=>state.token)
   const responseRef=useRef()
     
+  
+
   const handleGPTResponse=async () => {
     setIsLoading(true)
     const query=queryRef.current.value

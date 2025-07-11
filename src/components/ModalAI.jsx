@@ -6,6 +6,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import {marked} from 'marked'
 import { ScaleLoader } from 'react-spinners';
 // import {motion} from 'motion/react'
+import { FaCopy, FaRegCopy } from "react-icons/fa";
 
 const ModalAI = ({ isOpen, setIsOpen }) => {
 
@@ -30,6 +31,21 @@ const ModalAI = ({ isOpen, setIsOpen }) => {
   }
   
   const [isLoading,setIsLoading]=useState(false)
+  // const divRef=useRef(null)
+
+  const handleCopy = () => {
+    if (responseRef.current) {
+      const text = responseRef.current.innerText;
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          alert('Text copied to clipboard!');
+        })
+        .catch((err) => {
+          console.error('Failed to copy text: ', err);
+        });
+    }
+  };
+
 
   return (
     <AnimatePresence>
@@ -75,6 +91,7 @@ const ModalAI = ({ isOpen, setIsOpen }) => {
 
           <AnimatePresence mode="wait">
           <motion.div
+            
             key={content} // re-triggers animation when content changes
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -87,17 +104,21 @@ const ModalAI = ({ isOpen, setIsOpen }) => {
           </AnimatePresence>
 
             {/* Generate Button */}
-           <div className='flex justify-center items-center'>
+           <div className='relative flex justify-center items-center'>
               <div
                 onClick={handleGPTResponse}
                 className="cursor-pointer text-center text-white bg-black px-2 py-1 md:py-2 md:px-4 w-fit rounded-md mt-4 h-fit"
               >
                 Generate
               </div>
+              
             {isLoading &&  <div className='px-2 py-1 md:py-2 md:px-4 w-fit rounded-md mt-4'>
               <ScaleLoader height={24} width={3} margin={1} />
               </div>
             }
+            <div onClick={handleCopy} className='cursor-pointer mt-4 md:mt-3 text-black absolute right-0'>
+              <FaCopy  className='h-5 w-5 md:h-7 md:w-7'></FaCopy>
+            </div>
             </div>
           </motion.div>
         </>
