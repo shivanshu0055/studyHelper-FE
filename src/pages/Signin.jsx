@@ -36,10 +36,10 @@ const Signin = () => {
         login(res.data.token,res.data.userID)
 
         navigate('/home')
-        setIsLoading(false)
+
     }
     catch(e){
-        setIsLoading(false)
+
         // console.log(e.status);
         // console.log(e.status)
         if(e.status==400){
@@ -66,6 +66,9 @@ const Signin = () => {
             });
             return
         }
+    }
+    finally{
+            setIsLoading(false)
     }
 
     }
