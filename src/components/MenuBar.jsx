@@ -357,7 +357,7 @@ const MenuBar = ({isOpenAI,setIsOpenAI,isOpenSave,setIsOpenSave,isOpenAskAI,setI
             SAVE
           </div>
         </button>
-        <button className='flex gap-1 justify-center items-center bg-yellow-100 text-black' onClick={()=>{
+        <button className='flex gap-1 justify-center items-center inset-shadow-sm inset-shadow-blue-400 ring ring-blue-400/40' onClick={()=>{
           setIsOpenAI(!isOpenAI)
         }}>
           <GiStarSwirl />
@@ -365,7 +365,7 @@ const MenuBar = ({isOpenAI,setIsOpenAI,isOpenSave,setIsOpenSave,isOpenAskAI,setI
             AI
           </div>
         </button>
-        <button className='flex gap-1 justify-center items-center bg-yellow-100 text-black' onClick={()=>{
+        <button className='flex gap-1 justify-center items-center  inset-shadow-sm inset-shadow-blue-400 ring ring-blue-400/40' onClick={()=>{
           setIsOpenAskAI(!isOpenAskAI)
         }}>
           <GiStarSwirl />
