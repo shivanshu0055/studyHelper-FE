@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import { useEditor } from '@tiptap/react'
+import axios from 'axios'
 
 const MainLanding = () => {
 
     const navigate=useNavigate()
+    useEffect(()=>{
+        
+        const wakeup=async()=>{
+           await axios.get(import.meta.env.VITE_BACKEND_URL+"/wakeup")
+        }
 
+        wakeup()
+    },[])   
+    
   return (
     <div className='font-poppins w-full bg-gray-100'>
         <Navbar></Navbar>
