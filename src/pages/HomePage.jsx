@@ -20,7 +20,6 @@ import { FaChevronCircleLeft } from "react-icons/fa"
 import { FaChevronCircleRight } from "react-icons/fa"
 import { FaStar } from "react-icons/fa";
 
-
 const extensions = [StarterKit]
 
 const months = [
@@ -44,7 +43,7 @@ const HomePage = () => {
     const inputRef=useRef()
 
     const notes=useNoteStore((state)=>state.notes)
-    // const notes=[]
+    
     const fetchNote=useNoteStore((state)=>state.fetchNote)
 
     const setEditorText=useEditorStore((state)=>state.setEditorText)
@@ -149,7 +148,7 @@ const HomePage = () => {
             <div >
             <FaPencilAlt className='h-5 w-5 md:h-6 md:w-6'/>
             </div>
-            <div className='mt-2 text-xs md:text-sm'>
+            <div className='text-center mt-2 text-xs md:text-sm'>
                 New Note
             </div>
             </div>
@@ -158,8 +157,8 @@ const HomePage = () => {
             <div >
             <FaFilePdf className='h-5 w-5 md:h-6 md:w-6'/>
             </div>
-            <div className='mt-2 text-xs md:text-sm'>
-                Upload PDF
+            <div className='text-center mt-2 text-xs md:text-sm'>
+                Upload PDF 
             </div>
             <input
                 type="file"
