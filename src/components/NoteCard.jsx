@@ -92,7 +92,7 @@ const NoteCard = ({noteID,createdAt,updatedAt,title,content,subject,color,fav}) 
         setShowDelete(false)
     }}
 
-    className={` relative font-poppins md:h-[330px] w-[48%] lg:w-[32%] xl:w-[23.5%] h-[310px] rounded-2xl pt-6 pb-5 px-4 bg-[${colorSchemes[color]}] `}
+    className={`relative font-poppins md:h-[330px] sm:w-[48%] lg:w-[32%] xl:w-[23.5%] h-[310px] rounded-2xl pt-6 pb-5 px-4 bg-[${colorSchemes[color]}] `}
     >
         { loading && <Loading/>}
         <AnimatePresence>
