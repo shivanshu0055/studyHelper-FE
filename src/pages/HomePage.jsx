@@ -144,7 +144,7 @@ const HomePage = () => {
             <RightArrow ></RightArrow>
             </div>
             
-            <div onClick={()=>navigate("/textEditor")} className='cursor-pointer h-22 w-22 md:h-28 md:w-28 bg-gray-100/30 outline-dashed outline-2 outline-black/30 rounded-3xl flex justify-center items-center flex-col '>
+            <div onClick={()=>navigate("/textEditor")} className='cursor-pointer h-22 w-24 md:h-28 md:w-28 bg-gray-100/30 outline-dashed outline-2 outline-black/30 rounded-3xl flex justify-center items-center flex-col '>
             <div >
             <FaPencilAlt className='h-5 w-5 md:h-6 md:w-6'/>
             </div>
@@ -153,7 +153,7 @@ const HomePage = () => {
             </div>
             </div>
 
-            <div onClick={handleDivClick} className='cursor-pointer h-22 w-22 md:h-28 md:w-28 bg-gray-100/30 outline-dashed outline-2 outline-black/30 rounded-3xl flex justify-center items-center flex-col '>
+            <div onClick={handleDivClick} className='cursor-pointer h-22 w-24 md:h-28 md:w-28 bg-gray-100/30 outline-dashed outline-2 outline-black/30 rounded-3xl flex justify-center items-center flex-col '>
             <div >
             <FaFilePdf className='h-5 w-5 md:h-6 md:w-6'/>
             </div>
